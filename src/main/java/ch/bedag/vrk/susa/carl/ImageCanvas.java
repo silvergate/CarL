@@ -3,9 +3,7 @@ package ch.bedag.vrk.susa.carl;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
-import java.text.MessageFormat;
 
 /**
  * Buran.
@@ -32,7 +30,7 @@ public class ImageCanvas extends JComponent {
 
     public ImageCanvas(BufferedImage image) {
         setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
-        this.transform = new AffineTransform(1f,0f,0f,1f,x,y);
+        this.transform = new AffineTransform(1f, 0f, 0f, 1f, x, y);
         setImageInternal(image);
     }
 

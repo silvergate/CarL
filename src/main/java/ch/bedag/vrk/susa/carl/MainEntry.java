@@ -1,5 +1,8 @@
 package ch.bedag.vrk.susa.carl;
 
+import ch.bedag.vrk.susa.carl.imageCrop.ImageCrop;
+import ch.bedag.vrk.susa.carl.imageCrop.ImageCropSettings;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -18,12 +21,15 @@ public class MainEntry {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                BufferedImage img = ImgUtils.getImageFromClasspath
-                        ("ch/bedag/vrk/susa/carl/china-nail-house.jpg");
+                BufferedImage img = ImgUtils.getImageFromClasspath(
+                        "ch/bedag/vrk/susa/carl/china-nail-house.jpg");
 
                 JFrame frame = new JFrame("Ein titel");
                 frame.getContentPane().setLayout(new BorderLayout());
-                frame.getContentPane().add(new ImageCrop(img, frame), BorderLayout.CENTER);
+                ImageCropSettings icSettings = new ImageCropSettings();
+                frame.getContentPane().add(new ImageCrop(img, icSettings), BorderLayout.CENTER);
+                frame.getContentPane().add(new JButton("asdas"), BorderLayout.SOUTH);
+
                 frame.pack();
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                 frame.setLocationRelativeTo(null); // center the application window
