@@ -15,7 +15,7 @@ import java.awt.geom.Rectangle2D;
  * @author: ${USER} Date: 10.01.13 Time: 16:37
  */
 public class Selector {
-    private final Component component;
+    private final ImageCrop component;
     private final ImageCropSettings settings;
     private final AffineTransform transform;
 
@@ -36,7 +36,7 @@ public class Selector {
     private final Rectangle2D.Float shapeN = new Rectangle2D.Float();
     private final Rectangle2D.Float shapeS = new Rectangle2D.Float();
 
-    public Selector(Component component, ImageCropSettings settings, AffineTransform transform) {
+    public Selector(ImageCrop component, ImageCropSettings settings, AffineTransform transform) {
         this.component = component;
         this.settings = settings;
         this.transform = transform;
@@ -171,25 +171,27 @@ public class Selector {
         float w = (float) (sp2.getX() - sp1.getX());
         float h = (float) (sp2.getY() - sp1.getY());
 
-        this.shape.setRect(x - 1, y - 1, w + 2, h + 2);
-        g2d.setColor(new Color(0f, 1f, 0, 0.8f));
-        g2d.setStroke(this.stroke);
-        g2d.draw(this.shape);
+        this.shapeE.setRect(this.component.getImgPosX1(), this.component.getImgPosY1(), x - 1,
+                this.component.getImgPosY2() - this.component.getImgPosY1());
+        this.shapeW.setRect(x + w, this.component.getImgPosY1(),
+                this.component.getImgPosX2() - (x + w),
+                this.component.getImgPosY2() - this.component.getImgPosY1());
 
-        this.shapeE.setRect(0, 0, x - 1, this.component.getHeight());
-        this.shapeW.setRect(x + w + 1, 0, this.component.getWidth() - (x + w + 1) - 1,
-                this.component.getHeight());
+        this.shapeN.setRect(x, this.component.getImgPosY1(), w, y - this.component.getImgPosY1());
 
-        this.shapeN.setRect(x + 1, 0, this.component.getWidth() - (x + w + 1), y - 1);
-        this.shapeS.setRect(x + w + 1, y + h + 1, this.component.getWidth() - (x + w + 1) - 1,
-                this.component.getHeight() - (y + h + 1) - 1);
+        this.shapeS.setRect(x, y + h + 1, w, this.component.getImgPosY2() - (y + h + 1));
 
         g2d.setColor(new Color(1f, 1f, 1f, 0.4f));
 
         g2d.fill(this.shapeE);
         g2d.fill(this.shapeW);
-        // g2d.fill(this.shapeS);
-        //g2d.fill(this.shapeN);
+        g2d.fill(this.shapeS);
+        g2d.fill(this.shapeN);
+
+        this.shape.setRect(x - 1, y - 1, w + 2, h + 2);
+        g2d.setColor(new Color(0.3f, 1f, 0.3f, 0.8f));
+        g2d.setStroke(this.stroke);
+        g2d.draw(this.shape);
 
         r1.paint(g2d, this.mouseIsInside);
         r2.paint(g2d, this.mouseIsInside);
